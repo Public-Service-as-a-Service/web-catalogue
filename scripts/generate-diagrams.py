@@ -252,6 +252,12 @@ diagram(
 
 MASTER_NAMES = {"citizen", "employee", "legalentity", "party", "activedirectory"}
 
+
+def clip(s, n):
+    """Trim text so it fits inside a diagram box."""
+    s = (s or "").strip()
+    return s if len(s) <= n else s[: n - 1].rstrip() + "…"
+
 _data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apps-data.json")
 if os.path.exists(_data_path):
     import json
@@ -260,9 +266,9 @@ if os.path.exists(_data_path):
         _apps = json.load(f)
     for _app in _apps:
         _apis = _app.get("apis") or []
-        _domain = [(a["name"], a.get("version") or "", a.get("usage") or "") for a in _apis
+        _domain = [(clip(a["name"], 22), a.get("version") or "", clip(a.get("usage"), 33)) for a in _apis
                    if a["name"].lower().replace("-", "") not in MASTER_NAMES]
-        _master = [(a["name"], a.get("version") or "", a.get("usage") or "") for a in _apis
+        _master = [(clip(a["name"], 22), a.get("version") or "", clip(a.get("usage"), 33)) for a in _apis
                    if a["name"].lower().replace("-", "") in MASTER_NAMES]
         _core = _domain[0] if _domain else None
         _rest = _domain[1:] if _domain else []
@@ -274,7 +280,11 @@ if os.path.exists(_data_path):
         else:
             _auth_label, _auth_sub = None, None
         _integ = _app.get("integrationer") or []
-        _externals = [(name, "integration") for name in _integ if "saml" not in name.lower()][:10]
+        _has_apis = bool(_domain or _master)
+        _externals = [(clip(name, 24), "integration") for name in _integ
+                      if "saml" not in name.lower()
+                      and not (_has_apis and ("wso2" in name.lower() or "api-gateway" in name.lower()
+                                              or "api.sundsvall" in name.lower()))][:10]
         _teknik = _app.get("teknik") or {}
         _parts = [p for p in [_teknik.get("frontend"), _teknik.get("backend")] if p]
         _client_sub = (" + ".join(_parts) + " — " + _app["repo"]) if _parts else _app["repo"]

@@ -1,5 +1,16 @@
 # Webbkatalogen
 
+> **Arkiverat – innehållet har flyttat.** Webbkatalogen är numera sektionen
+> `tjanster/` på
+> [ekosystemet.sundsvall.dev](https://ekosystemet.sundsvall.dev/tjanster/index.html)
+> och underhålls i repot
+> [Public-Service-as-a-Service/dev-web](https://github.com/Public-Service-as-a-Service/dev-web),
+> tillsammans med målarkitekturen och API-katalogen. Tjänstesidorna har kvar
+> sina sökvägar (`/tjanster/<slug>.html`) och adresser under
+> `web-katalog.sundsvall.dev` omdirigeras dit. Det här repot ligger kvar som
+> historik och tar inte emot ändringar – historiken följde med till dev-web via
+> `git subtree`.
+
 En katalog över de webbapplikationer som Sundsvalls kommun publicerar som öppen
 källkod på GitHub ([github.com/Sundsvallskommun](https://github.com/Sundsvallskommun)
 – repon som börjar med `web-app`). Katalogen listar endast webbapplikationer som
